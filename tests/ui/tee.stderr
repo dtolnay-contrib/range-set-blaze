@@ -1,48 +1,25 @@
-error[E0599]: the method `union` exists for struct `Tee<Iter<'_, ({integer}, {integer})>>`, but its trait bounds were not satisfied
- --> tests/ui/tee.rs:7:17
+error[E0432]: unresolved import `itertools`
+ --> tests/ui/tee.rs:1:5
   |
-7 |     let _c = a0.union(a1);
-  |                 ^^^^^ method cannot be called on `Tee<Iter<'_, ({integer}, {integer})>>` due to unsatisfied trait bounds
+1 | use itertools::Itertools;
+  |     ^^^^^^^^^ use of undeclared crate or module `itertools`
+
+error[E0599]: no method named `tee` found for struct `std::slice::Iter` in the current scope
+ --> tests/ui/tee.rs:6:29
   |
- ::: $CARGO/itertools-0.10.5/src/tee.rs
+6 |     let (a0, a1) = a.iter().tee();
+  |                             ^^^ method not found in `Iter<'_, ({integer}, {integer})>`
   |
-  | pub struct Tee<I>
-  | -----------------
-  | |
-  | doesn't satisfy `<_ as IntoIterator>::Item = &RangeSetBlaze<_>`
-  | doesn't satisfy `<_ as IntoIterator>::Item = RangeSetBlaze<_>`
-  | doesn't satisfy `_: MultiwayRangeSetBlaze<'_, _>`
-  | doesn't satisfy `_: MultiwayRangeSetBlazeRef<_>`
-  | doesn't satisfy `_: SortedDisjoint<_>`
+ ::: $CARGO/itertools-0.10.5/src/lib.rs
   |
- ::: $RUST/core/src/slice/iter.rs
+  |     fn tee(self) -> (Tee<Self>, Tee<Self>)
+  |        --- the method is available for `std::slice::Iter<'_, ({integer}, {integer})>` here
   |
-  | pub struct Iter<'a, T: 'a> {
-  | -------------------------- doesn't satisfy `_: SortedDisjoint<_>`
-  |
-  = note: the following trait bounds were not satisfied:
-          `<Tee<core::slice::Iter<'_, ({integer}, {integer})>> as IntoIterator>::Item = &RangeSetBlaze<_>`
-          which is required by `Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwayRangeSetBlaze<'_, _>`
-          `<Tee<core::slice::Iter<'_, ({integer}, {integer})>> as IntoIterator>::Item = RangeSetBlaze<_>`
-          which is required by `Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwayRangeSetBlazeRef<_>`
-          `core::slice::Iter<'_, ({integer}, {integer})>: range_set_blaze::SortedDisjoint<_>`
-          which is required by `Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::SortedDisjoint<_>`
-          `<&Tee<core::slice::Iter<'_, ({integer}, {integer})>> as IntoIterator>::Item = &RangeSetBlaze<_>`
-          which is required by `&Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwayRangeSetBlaze<'_, _>`
-          `&Tee<core::slice::Iter<'_, ({integer}, {integer})>>: IntoIterator`
-          which is required by `&Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwayRangeSetBlaze<'_, _>`
-          `<&Tee<core::slice::Iter<'_, ({integer}, {integer})>> as IntoIterator>::Item = RangeSetBlaze<_>`
-          which is required by `&Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwayRangeSetBlazeRef<_>`
-          `&Tee<core::slice::Iter<'_, ({integer}, {integer})>>: IntoIterator`
-          which is required by `&Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwayRangeSetBlazeRef<_>`
-          `<&Tee<core::slice::Iter<'_, ({integer}, {integer})>> as IntoIterator>::Item = _`
-          which is required by `&Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwaySortedDisjoint<_, _>`
-          `&Tee<core::slice::Iter<'_, ({integer}, {integer})>>: IntoIterator`
-          which is required by `&Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwaySortedDisjoint<_, _>`
-          `<&mut Tee<core::slice::Iter<'_, ({integer}, {integer})>> as IntoIterator>::Item = &RangeSetBlaze<_>`
-          which is required by `&mut Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwayRangeSetBlaze<'_, _>`
-          `<&mut Tee<core::slice::Iter<'_, ({integer}, {integer})>> as IntoIterator>::Item = RangeSetBlaze<_>`
-          which is required by `&mut Tee<core::slice::Iter<'_, ({integer}, {integer})>>: range_set_blaze::MultiwayRangeSetBlazeRef<_>`
+  = help: items from traits can only be used if the trait is in scope
+help: the following trait is implemented but not in scope; perhaps add a `use` for it:
+    |
+1   + use itertools::Itertools;
+    |
 
 warning: unused import: `range_set_blaze::prelude`
  --> tests/ui/tee.rs:2:5
